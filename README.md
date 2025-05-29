@@ -52,6 +52,7 @@ Boolean roomService;
 Boolean conferenceRoom;
 List<String> photos;
 ```
+
 **User.java**
 
 Represents a user and its attributes:
