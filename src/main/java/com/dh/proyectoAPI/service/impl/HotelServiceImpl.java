@@ -40,4 +40,7 @@ public class HotelServiceImpl implements IHotelService {
     @Override
     public List<Hotel> findByType(String t) {return repository.findByType(t);}
 
+    @Override
+    public List<Hotel> findByHotelName(String n) {return repository.findByHotelName(n);}
+
 }

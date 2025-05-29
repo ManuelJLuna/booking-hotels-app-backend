@@ -10,13 +10,12 @@ import java.util.List;
 @Table(name = "Hotel")
 public class Hotel {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hotel_name", nullable = false, length = 100/*, unique = true */)
+    @Column(name = "hotel_name", nullable = false, length = 100, unique = true)
     @JsonAlias("hotel_name")
     private String hotelName;
 
@@ -28,7 +27,7 @@ public class Hotel {
     @JsonAlias("hotel_type")
     private String hotelType;
 
-    @Column(name = "hotel_address", nullable = false/*, unique = true*/)
+    @Column(name = "hotel_address", nullable = false)
     @JsonAlias("hotel_address")
     private String hotelAddress;
 
@@ -96,7 +95,7 @@ public class Hotel {
     @JsonAlias("has_conference_room")
     private Boolean conferenceRoom;
 
-    @Column(name = "hotel_photos", nullable = true)
+    @Column(name = "hotel_photos", nullable = false)
     @JsonAlias("hotel_photos")
     private List<String> photos;
 

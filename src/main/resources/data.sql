@@ -28,3 +28,8 @@ INSERT INTO hotel (
 ('Hotel 58', 'Calle 58 Nº 157', 'Ciudad 58', 'País A', '+1000000058', 'hotel58@mail.com', 'https://hotel58.com', 158, 'Hotel', 'Descripción del hotel 58.', false, true, false, true, true, false, true, false, false, false, '/images/hotel58.jpg'),
 ('Hotel 59', 'Calle 59 Nº 158', 'Ciudad 59', 'País B', '+1000000059', 'hotel59@mail.com', 'https://hotel59.com', 159, 'Hostal', 'Descripción del hotel 59.', true, true, true, false, false, true, false, true, true, true, '/images/hotel59.jpg'),
 ('Hotel 60', 'Calle 60 Nº 159', 'Ciudad 60', 'País C', '+1000000060', 'hotel60@mail.com', 'https://hotel60.com', 160, 'Resort', 'Descripción del hotel 60.', true, true, false, true, true, true, true, true, true, false, '/images/hotel60.jpg');
+
+INSERT INTO Users (
+    name, last_name, email, password, user_role
+) VALUES
+('admin', 'admin', 'admin@gmail.com', 'admin', 'admin');

@@ -44,9 +44,9 @@ public class HotelController {
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Hotel hotel) {
         ResponseEntity<String> response;
-        Optional<Hotel> dentistToLookFor = service.findById(hotel.getId());
+        Optional<Hotel> hotelToLookFor = service.findById(hotel.getId());
 
-        if (dentistToLookFor.isPresent()) {
+        if (hotelToLookFor.isPresent()) {
             service.update(hotel);
             response = ResponseEntity.ok("Se actualizó el hotel: " + hotel.getHotelName());
 
@@ -84,6 +84,16 @@ public class HotelController {
             return ResponseEntity.ok(hotel);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron: " + type);
+        }
+    }
+
+    @GetMapping("/hotelName/{hotelName}")
+    public ResponseEntity<?> findByHotelName(@PathVariable String hotelName) throws Exception {
+        List<Hotel> hotel = service.findByHotelName(hotelName);
+        if (!hotel.isEmpty()) {
+            return ResponseEntity.ok(hotel);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se el hotel: " + hotelName);
         }
     }
 

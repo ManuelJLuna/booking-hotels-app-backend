@@ -23,4 +23,6 @@ public interface IHotelService {
 
     List<Hotel> findByType(String t);
 
+    List<Hotel> findByHotelName(String n);
+
 }
