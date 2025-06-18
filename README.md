@@ -1,346 +1,87 @@
-# Hotel API Documentation
+# Booking Hotels App (Backend)
 
-A RESTful API for hotel management, developed with Spring Boot. This API allows creating, listing, updating, and deleting hotels, as well as uploading associated images. It also allows to create users that can book a hotel, edit their accounts and reservations
+This is the backend of the Booking Hotels App — a RESTful API built with Spring Boot. It provides endpoints for managing hotels, reservations, and user reviews.
 
----
+Frontend repository: [booking-hotels-app](https://github.com/ManuelJLuna/booking-hotels-app)
 
-## Automatically inserted objects into the database
+## Features
 
-- **Hotels:** `23 hotels, 3 with photos, names and descriptions. 20 with a generic name and description`
-- **Users:** `1 admin account to acces the admin functions on the frontend`
+- Create, read, update, and delete hotels
+- Create and retrieve hotel reservations
+- Submit and fetch hotel reviews
+- Store hotel photos
+- Filter hotels by location
+- Auto-generated API documentation
 
----
+## Technologies Used
 
-## Overall Architecture
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2 in-memory database
+- Spring Web
+- SpringDoc OpenAPI (Swagger UI)
 
-- **Controller:** `HotelController.java` + `UserController.java`
-- **Service:** `IHotelService.java` + `HotelServiceImpl.java` + `IUserService.java` + `UserServiceImpl.java`
-- **Repository:** `IHotelRepository.java` + `IUserRepository.java`
-- **Model:** `Hotel.java` + `User.java`
-- **Configuration:** `WebConfig.java`, `ProyectoApiApplication.java`
-- **Error Handling:** `ResourceNotFoundException.java`
+## Getting Started
 
----
+### 1. Clone the repository
 
-## Data Model
-
-**Hotel.java**
-
-Represents a hotel and its attributes:
-
-```java
-Long id;
-String hotelName;
-Double pricePerNight;
-String hotelType;
-String hotelAddress;
-String hotelCity;
-String hotelCountry;
-Long hotelPhone;
-String hotelEmail;
-String hotelWebsite;
-String hotelDescription;
-Boolean wifi;
-Boolean parking;
-Boolean pool;
-Boolean gym;
-Boolean restaurant;
-Boolean spa;
-Boolean bar;
-Boolean laundry;
-Boolean roomService;
-Boolean conferenceRoom;
-List<String> photos;
+```bash
+git clone https://github.com/ManuelJLuna/booking-hotels-app-backend.git
+cd booking-hotels-app-backend
 ```
 
-**User.java**
+### 2. Build and run the application
 
-Represents a user and its attributes:
+You can run it using your IDE or with the following command:
 
-```java
-Long id;
-String name;
-String lastname;
-String email;
-String password;
-String role;
-List<Long> reservedHotels;
+```bash
+./mvnw spring-boot:run
 ```
 
----
+The API will be available at `http://localhost:8080`
 
-## API Endpoints
+## API Documentation
 
-## Hotel Endpoints
+Once the application is running, the interactive documentation is available at:
 
-### Create a hotel
+- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- OpenAPI JSON: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
-- **URL:** `POST /hotel`
-- **Body (JSON):**
+## Sample Endpoints
 
-```json
-{
-    "hotel_name": "ExampleHotel",
-    "hotel_address": "Street 1",
-    "price_per_night": 300.0,
-    "hotel_type": "hotel",
-    "hotel_city": "CityExample",
-    "hotel_country": "CountryExample",
-    "hotel_phone": 123456789,
-    "hotel_email": "examplehotel@gmail.com",
-    "hotel_website": "https://examplehotel.com",
-    "hotel_description": "Very pretty hotel",
-    "has_wifi": false,
-    "has_parking": true,
-    "has_pool": false,
-    "has_gym": true,
-    "has_restaurant": false,
-    "has_spa": true,
-    "has_bar": false,
-    "has_laundry": true,
-    "has_room_service": false,
-    "has_conference_room": true,
-    "hotel_photos": ["imageURL1.jpg", "imageURL2.jpg"]
-}
+- `GET /hotel` - List all hotels
+- `GET /hotel/{id}` - Get hotel
+- `POST /hotel` - Create a new hotel
+- `POST /reservation` - Make a reservation
+- `GET /reservation/{id}` - Get a reservation
+- `POST /review` - Submit a hotel review
+
+## Database Configuration
+
+This project uses an in-memory H2 database. You can view the database console at:
 
 ```
-
-- **Response:** `201 Created` with the created hotel.
-
----
-
-### Upload image
-
-- **URL:** `POST /hotel/upload`
-- **Request:** `multipart/form-data` with a file.
-- **Response:**
-
-```json
-{
-  "url": "http://localhost:8080/uploads/imageURL.jpg"
-}
+http://localhost:8080/h2-console
 ```
 
----
+Make sure to set the JDBC URL to `jdbc:h2:mem:testdb` in the console.
 
-### List all hotels
+## Project Structure
 
-- **URL:** `GET /hotel`
-- **Response:** List of all hotels.
-
----
-
-### Get hotel by ID
-
-- **URL:** `GET /hotel/{id}`
-- **Response:** Hotel corresponding to the ID.
-- **Error:** `404 Not Found` if it does not exist.
-
----
-
-### Update hotel
-
-- **URL:** `PUT /hotel/{id}`
-- **Body (JSON):**
-
-```json
-{
-    "hotel_name": "ExampleHotel",
-    "hotel_address": "Street 1",
-    "price_per_night": 300.0,
-    "hotel_type": "hotel",
-    "hotel_city": "CityExample",
-    "hotel_country": "CountryExample",
-    "hotel_phone": 123456789,
-    "hotel_email": "examplehotel@gmail.com",
-    "hotel_website": "https://examplehotel.com",
-    "hotel_description": "Very pretty hotel",
-    "has_wifi": false,
-    "has_parking": true,
-    "has_pool": false,
-    "has_gym": true,
-    "has_restaurant": false,
-    "has_spa": true,
-    "has_bar": false,
-    "has_laundry": true,
-    "has_room_service": false,
-    "has_conference_room": true,
-    "hotel_photos": ["imageURL1.jpg", "imageURL2.jpg"]
-}
+```
+src/main/java/com/dh/proyectoAPI/
+├── controller/         # REST controllers
+├── entity/             # JPA entities
+├── repository/         # Spring Data repositories
+├── service/            # Service layer interfaces and implementations
+└── ProyectoApiApplication.java  # Main Spring Boot application
 ```
 
-- **Response:** Updated hotel.
-- **Error:** `404 Not Found` if it does not exist.
+## License
 
----
+This project is open-source and is distributed under the MIT License.
 
-### Delete hotel
+## Author
 
-- **URL:** `DELETE /hotel/{id}`
-- **Response:** `204 No Content`
-- **Error:** `404 Not Found` if it does not exist.
-
----
-
-## Service Logic
-
-### IHotelService.java
-
-Defines the service methods:
-
-```java
-List<Hotel> getAllHotels();
-Hotel getHotelById(Long id);
-Hotel createHotel(Hotel hotel);
-Hotel updateHotel(Long id, Hotel hotel);
-void deleteHotel(Long id);
-```
-
-### HotelServiceImpl.java
-
-Implements the logic using `IHotelRepository` and throws `ResourceNotFoundException` if a hotel is not found.
-
----
-
-## Repository
-
-### IHotelRepository.java
-
-Extends `JpaRepository<Hotel, Long>` to access the H2 in-memory database automatically.
-
----
-
-## User Endpoints
-
-### Create a user
-
-- **URL:** `POST /users`
-- **Body (JSON):**
-
-```json
-{
-  "name": "exampleName",
-  "last_name": "exampleLastName",
-  "email": "example@gmail.com",
-  "password": "example"
-}
-```
-
-- **Response:** `201 Created` with the created user.
-
----
-
-### List all users
-
-- **URL:** `GET /users`
-- **Response:** List of all users.
-
----
-
-### Get user by ID
-
-- **URL:** `GET /users/{id}`
-- **Response:** User corresponding to the ID.
-- **Error:** `404 Not Found` if it does not exist.
-
----
-
-### Update user
-
-- **URL:** `PUT /users/{id}`
-- **Body (JSON):**
-
-```json
-{
-  "name": "exampleName",
-  "last_name": "exampleLastName",
-  "email": "example@gmail.com",
-  "password": "example",
-  "role": "user",
-  "reserved_hotels": [1,2,3]
-}
-```
-
-- **Response:** Updated user.
-- **Error:** `404 Not Found` if it does not exist.
-
----
-
-### Delete user
-
-- **URL:** `DELETE /user/{id}`
-- **Response:** `204 No Content`
-- **Error:** `404 Not Found` if it does not exist.
-
----
-
-## Service Logic
-
-### IHotelService.java
-
-Defines the service methods:
-
-```java
-List<Hotel> getAllHotels();
-Hotel getHotelById(Long id);
-Hotel createHotel(Hotel hotel);
-Hotel updateHotel(Long id, Hotel hotel);
-void deleteHotel(Long id);
-```
-
-### HotelServiceImpl.java
-
-Implements the logic using `IHotelRepository` and throws `ResourceNotFoundException` if a hotel is not found.
-
----
-
-### IUserService.java
-
-Defines the service methods:
-
-```java
-User save(User u);
-Optional<User> findById(Long id);
-void update(User u);
-void deleteById(Long id) throws ResourceNotFoundException;
-List<User> findAll();
-List<User> findByNameOrEmail(String ne);
-Optional<User> findByEmail(String e);
-```
-
-### UserServiceImpl.java
-
-Implements the logic using `IUserRepository` and throws `ResourceNotFoundException` if a user is not found.
-
----
-
-## Repository
-
-### IHotelRepository.java
-
-Extends `JpaRepository<Hotel, Long>` to access the H2 in-memory database automatically.
-
----
-
-### IUserRepository.java
-
-Extends `JpaRepository<User, Long>` to access the H2 in-memory database automatically.
-
----
-
-## Configuration
-
-### WebConfig.java
-
-- Configures CORS.
-- Defines the path to serve images from `/uploads`.
-
----
-
-## Error Handling
-
-### ResourceNotFoundException.java
-
-Custom exception thrown when a hotel by ID is not found.
-
----
+Created by Manu Luna — [GitHub Profile](https://github.com/ManuelJLuna)

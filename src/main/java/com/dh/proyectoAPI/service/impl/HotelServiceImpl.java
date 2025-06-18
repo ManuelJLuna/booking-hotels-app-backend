@@ -8,6 +8,7 @@ import com.dh.proyectoAPI.service.IHotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,12 +36,18 @@ public class HotelServiceImpl implements IHotelService {
     public List<Hotel> findAll() {return repository.findAll();}
 
     @Override
-    public List<Hotel> findByCityCountry(String c) {return repository.findByCityCountry(c);}
-
-    @Override
     public List<Hotel> findByType(String t) {return repository.findByType(t);}
 
     @Override
     public List<Hotel> findByHotelName(String n) {return repository.findByHotelName(n);}
+
+    @Override
+    public List<Hotel> findByCityCountryAndAvailability(String cityCountry, LocalDate checkIn, LocalDate checkOut) {
+        if (checkIn != null && checkOut != null) {
+            return repository.findAvailableHotelsByCityCountryAndDates(cityCountry, checkIn, checkOut);
+        } else {
+            return repository.findByCityCountry(cityCountry);
+        }
+    }
 
 }

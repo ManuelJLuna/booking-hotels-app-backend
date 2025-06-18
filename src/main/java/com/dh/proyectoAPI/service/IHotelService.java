@@ -4,6 +4,7 @@ package com.dh.proyectoAPI.service;
 import com.dh.proyectoAPI.entity.Hotel;
 import com.dh.proyectoAPI.exception.ResourceNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +20,10 @@ public interface IHotelService {
 
     List<Hotel> findAll();
 
-    List<Hotel> findByCityCountry(String c);
-
     List<Hotel> findByType(String t);
 
     List<Hotel> findByHotelName(String n);
+
+    List<Hotel> findByCityCountryAndAvailability(String cityCountry, LocalDate checkIn, LocalDate checkOut);
 
 }

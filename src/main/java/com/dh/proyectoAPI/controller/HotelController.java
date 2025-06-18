@@ -4,6 +4,7 @@ import com.dh.proyectoAPI.entity.Hotel;
 import com.dh.proyectoAPI.exception.ResourceNotFoundException;
 import com.dh.proyectoAPI.service.IHotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -68,13 +70,18 @@ public class HotelController {
     }
 
     @GetMapping("/citycountry/{citycountry}")
-    public ResponseEntity<?> findByCity(@PathVariable String citycountry) throws Exception {
-        List<Hotel> hotel = service.findByCityCountry(citycountry);
-        if (!hotel.isEmpty()) {
-            return ResponseEntity.ok(hotel);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron hoteles en: " + citycountry);
+    public ResponseEntity<?> findByCityCountryAndAvailability(
+            @PathVariable String citycountry,
+            @RequestParam(value = "checkIn", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+            @RequestParam(value = "checkOut", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut
+    ) {
+        System.out.println(checkIn);
+        System.out.println(checkOut);
+        List<Hotel> hotels = service.findByCityCountryAndAvailability(citycountry, checkIn, checkOut);
+        if (hotels.isEmpty()) {
+            return ResponseEntity.status(404).body("No hay hoteles disponibles en esas fechas.");
         }
+        return ResponseEntity.ok(hotels);
     }
 
     @GetMapping("/category/{type}")

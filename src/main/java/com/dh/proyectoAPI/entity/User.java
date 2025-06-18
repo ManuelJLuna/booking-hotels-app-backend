@@ -35,12 +35,39 @@ public class User {
     @JsonAlias("user_role")
     private String role;
 
-    @Column(name = "reserved_hotels")
-    @JsonAlias("reserved_hotels")
-    private List<Long> reservedHotels;
+    @ManyToMany
+    @JoinTable(name = "user_booked_hotels",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "hotel_id"))
+    private List<Hotel> bookedHotels;
+
+    @Column(name = "favourite_hotels")
+    @JsonAlias("favourite_hotels")
+    @ManyToMany
+    @JoinTable(name = "user_favourite_hotel",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "hotel_id")
+    )
+    private List<Hotel> favouriteHotels;
 
     public Long getId() {
         return id;
+    }
+
+    public List<Hotel> getBookedHotels() {
+        return bookedHotels;
+    }
+
+    public void setBookedHotels(List<Hotel> bookedHotels) {
+        this.bookedHotels = bookedHotels;
+    }
+
+    public List<Hotel> getFavouriteHotels() {
+        return favouriteHotels;
+    }
+
+    public void setFavouriteHotels(List<Hotel> favouriteHotels) {
+        this.favouriteHotels = favouriteHotels;
     }
 
     public void setId(Long id) {
@@ -49,14 +76,6 @@ public class User {
 
     public String getName() {
         return name;
-    }
-
-    public List<Long> getReservedHotels() {
-        return reservedHotels;
-    }
-
-    public void setReservedHotels(List<Long> reservedHotels) {
-        this.reservedHotels = reservedHotels;
     }
 
     public void setName(String name) {
@@ -104,7 +123,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
-                ", reservedHotels=" + reservedHotels +
+                ", reservedHotels=" + bookedHotels +
+                ", favouriteHotels=" + favouriteHotels +
                 '}';
     }
 }

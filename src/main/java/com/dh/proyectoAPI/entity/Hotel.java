@@ -31,6 +31,10 @@ public class Hotel {
     @JsonAlias("hotel_address")
     private String hotelAddress;
 
+    @Column(name = "hotel_capacity", nullable = false)
+    @JsonAlias("hotel_capacity")
+    private Integer hotelCapacity;
+
     @Column(name = "hotel_city", nullable = false)
     @JsonAlias("hotel_city")
     private String hotelCity;
@@ -99,6 +103,50 @@ public class Hotel {
     @JsonAlias("hotel_photos")
     private List<String> photos;
 
+    @ManyToMany
+    @JoinTable(name = "hotel_categories",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", hotelName='" + hotelName + '\'' +
+                ", pricePerNight=" + pricePerNight +
+                ", hotelType='" + hotelType + '\'' +
+                ", hotelAddress='" + hotelAddress + '\'' +
+                ", hotelCapacity=" + hotelCapacity +
+                ", hotelCity='" + hotelCity + '\'' +
+                ", hotelCountry='" + hotelCountry + '\'' +
+                ", hotelPhone=" + hotelPhone +
+                ", hotelEmail='" + hotelEmail + '\'' +
+                ", hotelWebsite='" + hotelWebsite + '\'' +
+                ", hotelDescription='" + hotelDescription + '\'' +
+                ", wifi=" + wifi +
+                ", parking=" + parking +
+                ", pool=" + pool +
+                ", gym=" + gym +
+                ", restaurant=" + restaurant +
+                ", spa=" + spa +
+                ", bar=" + bar +
+                ", laundry=" + laundry +
+                ", roomService=" + roomService +
+                ", conferenceRoom=" + conferenceRoom +
+                ", photos=" + photos +
+                ", categories=" + categories +
+                '}';
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
     public Long getId() {
         return id;
     }
@@ -123,31 +171,6 @@ public class Hotel {
         this.hotelType = hotelType;
     }
 
-    @Override
-    public String toString() {
-        return "Hotel{" +
-                "hotelName='" + hotelName + '\'' +
-                ", hotelAddress='" + hotelAddress + '\'' +
-                ", hotelCity='" + hotelCity + '\'' +
-                ", hotelCountry='" + hotelCountry + '\'' +
-                ", hotelPhone='" + hotelPhone + '\'' +
-                ", hotelEmail='" + hotelEmail + '\'' +
-                ", hotelWebsite='" + hotelWebsite + '\'' +
-                ", hotelDescription='" + hotelDescription + '\'' +
-                ", wifi=" + wifi +
-                ", parking=" + parking +
-                ", pool=" + pool +
-                ", gym=" + gym +
-                ", restaurant=" + restaurant +
-                ", spa=" + spa +
-                ", bar=" + bar +
-                ", laundry=" + laundry +
-                ", roomService=" + roomService +
-                ", conferenceRoom=" + conferenceRoom +
-                ", photos='" + photos + '\'' +
-                '}';
-    }
-
     public String getHotelName() {
         return hotelName;
     }
@@ -158,6 +181,14 @@ public class Hotel {
 
     public String getHotelAddress() {
         return hotelAddress;
+    }
+
+    public Integer getHotelCapacity() {
+        return hotelCapacity;
+    }
+
+    public void setHotelCapacity(Integer hotelCapacity) {
+        this.hotelCapacity = hotelCapacity;
     }
 
     public void setHotelAddress(String hotelAddress) {
